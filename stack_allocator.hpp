@@ -14,8 +14,8 @@ class StackAllocator {
   void Deallocate() noexcept;
 
  private:
-  unsigned char* const memory_begin_pointer_;
-  unsigned char* memory_top_pointer_;
+  unsigned char* const begin_memory_pointer_;
+  unsigned char* top_memory_pointer_;
   uint64_t memory_size_bytes_;
 };
 
