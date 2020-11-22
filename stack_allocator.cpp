@@ -1,10 +1,13 @@
 #include "stack_allocator.hpp"
+
 #include <memory>
 
-allocators::StackAllocator::StackAllocator(unsigned char* memory_begin_pointer, const uint64_t& memory_size_bytes) noexcept
+allocators::StackAllocator::StackAllocator(unsigned char* memory_begin_pointer,
+                                           const uint64_t& memory_size_bytes) noexcept
     : begin_memory_pointer_(memory_begin_pointer),
       memory_size_bytes_(memory_size_bytes),
-      top_memory_pointer_(memory_begin_pointer) {}
+      top_memory_pointer_(memory_begin_pointer) {
+}
 
 allocators::StackAllocator::~StackAllocator() noexcept {
   while (top_memory_pointer_ != begin_memory_pointer_) {
@@ -13,13 +16,14 @@ allocators::StackAllocator::~StackAllocator() noexcept {
 }
 
 void* allocators::StackAllocator::Allocate(uint64_t size_bytes) noexcept {
-  if (top_memory_pointer_ + size_bytes > begin_memory_pointer_ + memory_size_bytes_) {
+  if (top_memory_pointer_ + size_bytes + sizeof(uint64_t) >
+      begin_memory_pointer_ + memory_size_bytes_) {
     return nullptr;
   }
   unsigned char* allocated_memory_begin = top_memory_pointer_;
   top_memory_pointer_ += size_bytes;
 
-  auto* allocated_size = new(top_memory_pointer_) uint64_t();
+  auto* allocated_size = new (top_memory_pointer_) uint64_t();
   *allocated_size = size_bytes;
   top_memory_pointer_ += sizeof(uint64_t);
 
@@ -32,6 +36,15 @@ void allocators::StackAllocator::Deallocate() noexcept {
   }
 
   top_memory_pointer_ -= sizeof(uint64_t);
-  uint64_t block_size_bytes = static_cast<uint64_t>(*top_memory_pointer_);
+  auto block_size_bytes = static_cast<uint64_t>(*top_memory_pointer_);
   top_memory_pointer_ -= block_size_bytes;
+}
+
+allocators::StackAllocator::StackAllocator(allocators::StackAllocator&& other) noexcept
+    : begin_memory_pointer_(other.begin_memory_pointer_),
+      top_memory_pointer_(other.top_memory_pointer_),
+      memory_size_bytes_(other.memory_size_bytes_) {
+  other.begin_memory_pointer_ = nullptr;
+  other.top_memory_pointer_ = nullptr;
+  other.memory_size_bytes_ = 0;
 }
