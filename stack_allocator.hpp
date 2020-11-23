@@ -3,6 +3,7 @@
 
 #include <cstdint>
 namespace allocators {
+
 class StackAllocator {
  public:
   explicit StackAllocator(unsigned char* memory_begin_pointer,
