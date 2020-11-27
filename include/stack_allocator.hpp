@@ -2,6 +2,7 @@
 #define ALLOCATORS__STACK_ALLOCATOR_HPP_
 
 #include <cstdint>
+
 namespace allocators {
 
 class StackAllocator {
@@ -11,6 +12,9 @@ class StackAllocator {
   ~StackAllocator() noexcept;
   StackAllocator(const StackAllocator& other) noexcept = delete;
   StackAllocator(StackAllocator&& other) noexcept;
+
+  StackAllocator& operator=(const StackAllocator& other) = delete;
+  StackAllocator& operator=(StackAllocator&& other) = delete;
 
   void* Allocate(uint64_t size_bytes) noexcept;
   void Deallocate() noexcept;

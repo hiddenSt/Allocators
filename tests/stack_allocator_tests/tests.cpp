@@ -1,4 +1,4 @@
-#include "../../stack_allocator.hpp"
+#include "stack_allocator.hpp"
 #include "gtest/gtest.h"
 
 class StackAllocatorTest : public ::testing::Test {
