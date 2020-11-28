@@ -7,9 +7,7 @@ include_directories(include)
 add_subdirectory(libs)
 add_subdirectory(tests)
 
-
-
-set(HEADERS include/stack_allocator.hpp)
-set(SOURCES src/stack_allocator.cpp)
+set(HEADERS include/stack_allocator.hpp include/pool_allocator.hpp)
+set(SOURCES src/stack_allocator.cpp src/pool_allocator.cpp)
 
 add_library(Allocators ${HEADERS} ${SOURCES})
