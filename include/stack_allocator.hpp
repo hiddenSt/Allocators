@@ -16,13 +16,10 @@ class StackAllocator {
   StackAllocator& operator=(const StackAllocator& other) = delete;
   StackAllocator& operator=(StackAllocator&& other) = delete;
 
-  void* Allocate(uint64_t size_bytes, std::size_t alignment) noexcept;
+  void* Allocate(uint64_t size_bytes, std::size_t alignment);
   void Free() noexcept;
 
  private:
-  void* AllocateUnaligned(uint64_t size_bytes) noexcept;
-
-
   unsigned char* begin_memory_pointer_;
   unsigned char* top_memory_pointer_;
   uint64_t memory_size_bytes_;
