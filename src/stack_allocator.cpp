@@ -55,6 +55,7 @@ void allocators::StackAllocator::Free() noexcept {
 
   top_memory_pointer_ -= sizeof(uint64_t);
   auto block_size_bytes = static_cast<uint64_t>(*top_memory_pointer_);
+  top_memory_pointer_ -= sizeof(std::size_t);
   auto adjustment = static_cast<std::size_t>(*top_memory_pointer_);
   top_memory_pointer_ -= block_size_bytes + adjustment;
 }
