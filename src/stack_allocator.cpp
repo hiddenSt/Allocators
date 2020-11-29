@@ -1,7 +1,7 @@
 #include "stack_allocator.hpp"
 
-#include <memory>
 #include <cstdint>
+#include <memory>
 
 allocators::StackAllocator::StackAllocator(unsigned char* memory_begin_pointer,
                                            const uint64_t& memory_size_bytes) noexcept
@@ -33,16 +33,14 @@ void* allocators::StackAllocator::Allocate(uint64_t size_bytes, std::size_t alig
     adjustment = static_cast<std::size_t>(aligned_memory_address - unaligned_memory);
   }
 
-  if (top_memory_pointer_ + adjustment + size_bytes + sizeof(std::size_t) + sizeof(uint64_t) > begin_memory_pointer_ + memory_size_bytes_) {
+  if (top_memory_pointer_ + adjustment + size_bytes + sizeof(uint64_t) >
+      begin_memory_pointer_ + memory_size_bytes_) {
     return nullptr;
   }
 
   top_memory_pointer_ += adjustment + size_bytes;
-  auto* adjustment_info = new(top_memory_pointer_) std::size_t();
-  *adjustment_info = adjustment;
-  top_memory_pointer_ += sizeof(std::size_t);
-  auto* block_size_info = new(top_memory_pointer_) uint64_t();
-  *block_size_info = size_bytes;
+  auto* block_size = new (top_memory_pointer_) uint64_t();
+  *block_size = adjustment + size_bytes;
   top_memory_pointer_ += sizeof(uint64_t);
 
   return reinterpret_cast<void*>(aligned_memory_address);
@@ -55,9 +53,7 @@ void allocators::StackAllocator::Free() noexcept {
 
   top_memory_pointer_ -= sizeof(uint64_t);
   auto block_size_bytes = static_cast<uint64_t>(*top_memory_pointer_);
-  top_memory_pointer_ -= sizeof(std::size_t);
-  auto adjustment = static_cast<std::size_t>(*top_memory_pointer_);
-  top_memory_pointer_ -= block_size_bytes + adjustment;
+  top_memory_pointer_ -= block_size_bytes;
 }
 
 allocators::StackAllocator::StackAllocator(allocators::StackAllocator&& other) noexcept

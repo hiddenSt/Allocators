@@ -1,5 +1,5 @@
-#include "stack_allocator.hpp"
 #include "gtest/gtest.h"
+#include "stack_allocator.hpp"
 
 class StackAllocatorTest : public ::testing::Test {
  protected:
@@ -55,5 +55,15 @@ TEST_F(StackAllocatorTest, CantDeallocateFreeMemory) {
 }
 
 TEST_F(StackAllocatorTest, Alignmet) {
+  std::size_t alignment = 128;
+  std::size_t mask = ~(alignment - 1);
+  auto* memory_request = stack_allocator_->Allocate(10, alignment);
+  auto memory_ptr = reinterpret_cast<std::uintptr_t>(memory_request);
+  ASSERT_EQ(memory_ptr & mask, memory_ptr) << std::hex << memory_ptr;
+}
 
+TEST_F(StackAllocatorTest, AlignmentIsPowerOf2) {
+  std::size_t alignment = 5;
+  auto* memory_request = stack_allocator_->Allocate(10, alignment);
+  ASSERT_EQ(memory_request, nullptr);
 }
