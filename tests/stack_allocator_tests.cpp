@@ -8,8 +8,8 @@ class StackAllocatorTest : public ::testing::Test {
     stack_allocator_ = new allocators::StackAllocator(allocated_memory_, memory_size_bytes_);
   }
 
-  const uint64_t memory_size_bytes_ = 100;
-  std::size_t alignment_ = 4;
+  const uint64_t memory_size_bytes_ = 80;
+  std::size_t alignment_ = 8;
   unsigned char* allocated_memory_;
   allocators::StackAllocator* stack_allocator_;
 };

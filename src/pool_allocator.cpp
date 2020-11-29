@@ -21,8 +21,8 @@ allocators::PoolAllocator::PoolAllocator(unsigned char *memory_begin_pointer,
     throw std::logic_error("Given memory size is 0.");
   }
 
-  if (block_size_bytes_ == 0) {
-    throw std::logic_error("Given block size is 0.");
+  if (block_size_bytes_ < sizeof(MemoryBlock)) {
+    throw std::logic_error("Given block size is less than 8 size of MemoryBlock.");
   }
 
   std::size_t free_block_count = memory_size_bytes_ / block_size_bytes_;
