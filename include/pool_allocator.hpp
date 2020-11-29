@@ -12,7 +12,7 @@ class PoolAllocator {
   ~PoolAllocator();
 
   void* Allocate() noexcept;
-  void Free(void* memory_block_pointer) noexcept;
+  void Free(void* memory_block_pointer);
 
  private:
   struct MemoryBlock {

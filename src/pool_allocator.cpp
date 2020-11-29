@@ -44,10 +44,19 @@ void *allocators::PoolAllocator::Allocate() noexcept {
   auto *allocated_memory = header_;
   header_ = header_->next_block;
   header_->~MemoryBlock();
-  return reinterpret_cast<void *>(allocated_memory);
+  return reinterpret_cast<void*>(allocated_memory);
 }
 
-void allocators::PoolAllocator::Free(void *memory_block_pointer) noexcept {
+void allocators::PoolAllocator::Free(void* memory_block_pointer)  {
+  auto* memory_block_uc_ptr = static_cast<unsigned char*>(memory_block_pointer);
+  auto memory_block_uint_ptr = reinterpret_cast<std::uintptr_t>(memory_block_pointer);
+
+  // TODO: check for pointer correctness
+  if (memory_block_uc_ptr > begin_memory_pointer_ + memory_size_bytes_ ||
+      memory_block_uc_ptr < begin_memory_pointer_ || memory_block_uint_ptr % block_size_bytes_ != 0) {
+    throw std::runtime_error("Invalid pointer");
+  }
+
   auto *free_block = new (memory_block_pointer) MemoryBlock();
   free_block->next_block = header_;
   header_ = free_block;
