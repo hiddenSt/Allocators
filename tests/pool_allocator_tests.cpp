@@ -40,19 +40,19 @@ TEST_F(PoolAllocatorTest, ThrowsExceptionIfGivenMemoryArenaPointerIsNullptr) {
 
 TEST_F(PoolAllocatorTest, AllocationWorks) {
   SetUpAllocator();
-  char* memory_request = nullptr;
-  memory_request = static_cast<char*>(pool_allocator_->Allocate());
+  unsigned char* memory_request = nullptr;
+  memory_request = static_cast<unsigned char*>(pool_allocator_->Allocate());
   ASSERT_NE(memory_request, nullptr);
 }
 
 TEST_F(PoolAllocatorTest, DeallocationWorks) {
   SetUpAllocator();
-  char* memory_request_1 = nullptr;
-  memory_request_1 = static_cast<char*>(pool_allocator_->Allocate());
+  unsigned char* memory_request_1 = nullptr;
+  memory_request_1 = static_cast<unsigned char*>(pool_allocator_->Allocate());
   ASSERT_NE(memory_request_1, nullptr);
   pool_allocator_->Free(memory_request_1);
 
-  char* memory_request_2 = static_cast<char*>(pool_allocator_->Allocate());
+  unsigned char* memory_request_2 = static_cast<unsigned char*>(pool_allocator_->Allocate());
   ASSERT_EQ(memory_request_1, memory_request_2);
 }
 
