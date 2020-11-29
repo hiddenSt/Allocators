@@ -17,7 +17,7 @@ After that you need to add it to cmake
 ### Running tests
 We use googletest for unit tests in this project. To run test follow these steps:
 
-### Contributing to Allocators
+## Contributing to Allocators
 To contribute to Allocators, you need these steps:
 1. Fork this repository
 2. Create a branch 
