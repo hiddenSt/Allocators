@@ -7,19 +7,22 @@ namespace allocators {
 
 class PoolAllocator {
  public:
-  explicit PoolAllocator();
+  explicit PoolAllocator(unsigned char* memory_begin_pointer, const uint64_t& memory_size_bytes,
+                         const uint64_t& block_size_bytes);
+  ~PoolAllocator();
 
   void* Allocate() noexcept;
-  void Free(void* chunk_pointer) noexcept;
+  void Free(void* memory_block_pointer) noexcept;
 
  private:
-  struct Header {
-    void* next_header;
+  struct MemoryBlock {
+    MemoryBlock* next_block = nullptr;
   };
 
-  Header* list_header_;
-  uint64_t memory_size_bytes;
-  void* memory_begin_pointer;
+  const std::size_t block_size_bytes_;
+  MemoryBlock* header_;
+  uint64_t memory_size_bytes_;
+  unsigned char* begin_memory_pointer_;
 };
 
 }  // namespace allocators

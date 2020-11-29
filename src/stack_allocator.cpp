@@ -2,12 +2,29 @@
 
 #include <cstdint>
 #include <memory>
+#include <stdexcept>
 
 allocators::StackAllocator::StackAllocator(unsigned char* memory_begin_pointer,
-                                           const uint64_t& memory_size_bytes) noexcept
+                                           const uint64_t& memory_size_bytes)
     : begin_memory_pointer_(memory_begin_pointer),
       memory_size_bytes_(memory_size_bytes),
       top_memory_pointer_(memory_begin_pointer) {
+  if (begin_memory_pointer_ == nullptr) {
+    throw std::logic_error("Given memory begin pointer is nullptr.");
+  }
+
+  if (memory_size_bytes_ == 0) {
+    throw std::logic_error("Given memory size is 0.");
+  }
+}
+
+allocators::StackAllocator::StackAllocator(allocators::StackAllocator&& other) noexcept
+    : begin_memory_pointer_(other.begin_memory_pointer_),
+      top_memory_pointer_(other.top_memory_pointer_),
+      memory_size_bytes_(other.memory_size_bytes_) {
+  other.begin_memory_pointer_ = nullptr;
+  other.top_memory_pointer_ = nullptr;
+  other.memory_size_bytes_ = 0;
 }
 
 allocators::StackAllocator::~StackAllocator() noexcept {
@@ -16,9 +33,14 @@ allocators::StackAllocator::~StackAllocator() noexcept {
   memory_size_bytes_ = 0;
 }
 
-void* allocators::StackAllocator::Allocate(uint64_t size_bytes, std::size_t alignment) {
+void* allocators::StackAllocator::Allocate(const uint64_t& size_bytes,
+                                           const std::size_t& alignment) {
   if ((alignment & alignment - 1) != 0) {
     throw std::runtime_error("Alignment has to be power of 2");
+  }
+
+  if (size_bytes == 0) {
+    throw std::logic_error("Can not allocate 0 bytes.");
   }
 
   auto unaligned_memory = reinterpret_cast<std::uintptr_t>(top_memory_pointer_);
@@ -56,13 +78,4 @@ void allocators::StackAllocator::Free() noexcept {
   top_memory_pointer_ -= sizeof(uint64_t);
   auto block_size_bytes = static_cast<uint64_t>(*top_memory_pointer_);
   top_memory_pointer_ -= block_size_bytes;
-}
-
-allocators::StackAllocator::StackAllocator(allocators::StackAllocator&& other) noexcept
-    : begin_memory_pointer_(other.begin_memory_pointer_),
-      top_memory_pointer_(other.top_memory_pointer_),
-      memory_size_bytes_(other.memory_size_bytes_) {
-  other.begin_memory_pointer_ = nullptr;
-  other.top_memory_pointer_ = nullptr;
-  other.memory_size_bytes_ = 0;
 }

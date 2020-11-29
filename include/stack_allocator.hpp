@@ -7,16 +7,15 @@ namespace allocators {
 
 class StackAllocator {
  public:
-  explicit StackAllocator(unsigned char* memory_begin_pointer,
-                          const uint64_t& memory_size_bytes) noexcept;
+  explicit StackAllocator(unsigned char* memory_begin_pointer, const uint64_t& memory_size_bytes);
   ~StackAllocator() noexcept;
-  StackAllocator(const StackAllocator& other) noexcept = delete;
   StackAllocator(StackAllocator&& other) noexcept;
+  StackAllocator(const StackAllocator& other) noexcept = delete;
 
   StackAllocator& operator=(const StackAllocator& other) = delete;
   StackAllocator& operator=(StackAllocator&& other) = delete;
 
-  void* Allocate(uint64_t size_bytes, std::size_t alignment);
+  void* Allocate(const uint64_t& size_bytes, const std::size_t& alignment);
   void Free() noexcept;
 
  private:
