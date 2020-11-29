@@ -15,23 +15,23 @@ class PoolAllocatorTest : public ::testing::Test {
   unsigned char* allocated_memory_;
 };
 
-TEST_F(PoolAllocatorTest, MemoryArenaSizeHasToBeMultipleOfBlockSize) {
+TEST_F(PoolAllocatorTest, ThrowsExceptionIfMemoryBlockSizeIsNotMultipleOfMemoryArena) {
   memory_size_bytes_ = 80;
   block_size_bytes_ = 9;
   ASSERT_THROW(SetUpAllocator(), std::logic_error);
 }
 
-TEST_F(PoolAllocatorTest, ZeroBytesArenaException) {
+TEST_F(PoolAllocatorTest, ThrowsExceptionIfGivenSizeOfMemoryArenaIsZeroBytes) {
   memory_size_bytes_ = 0;
   ASSERT_THROW(SetUpAllocator(), std::logic_error);
 }
 
-TEST_F(PoolAllocatorTest, BlockSizeLessThanSizeOfMemoryBlockStructException) {
+TEST_F(PoolAllocatorTest, ThrowsExceptionIfGivenBlockSizeLessThanSizeOfMemoryBlockStruct) {
   block_size_bytes_ = 7;
   ASSERT_THROW(SetUpAllocator(), std::logic_error);
 }
 
-TEST_F(PoolAllocatorTest, MemoryArenaPointerNullptrException) {
+TEST_F(PoolAllocatorTest, ThrowsExceptionIfGivenMemoryArenaPointerIsNullptr) {
   allocated_memory_ = nullptr;
   ASSERT_THROW(
       new allocators::PoolAllocator(allocated_memory_, memory_size_bytes_, block_size_bytes_),
@@ -64,7 +64,7 @@ TEST_F(PoolAllocatorTest, MultipleAllocationsWorks) {
   ASSERT_GE(abs(memory_request_2 - memory_request_1), block_size_bytes_);
 }
 
-TEST_F(PoolAllocatorTest, CantAllocateMoreThanNumberOfBlocks) {
+TEST_F(PoolAllocatorTest, CantAllocateMoreThanNumberOfMemoryBlocks) {
   SetUpAllocator();
   for (std::size_t i = 0; i < memory_size_bytes_ / block_size_bytes_; ++i) {
     ASSERT_NE(pool_allocator_->Allocate(), nullptr)
