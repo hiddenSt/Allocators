@@ -17,7 +17,9 @@ allocators::StackAllocator::~StackAllocator() noexcept {
 }
 
 void* allocators::StackAllocator::Allocate(uint64_t size_bytes, std::size_t alignment) {
-  // TODO: need to add check if alignment is power of 2
+  if ((alignment & alignment - 1) != 0) {
+    throw std::runtime_error("Alignment has to be power of 2");
+  }
 
   auto unaligned_memory = reinterpret_cast<std::uintptr_t>(top_memory_pointer_);
   std::size_t mask = ~(alignment - 1);
