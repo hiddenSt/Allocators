@@ -14,7 +14,7 @@ allocators::PoolAllocator::PoolAllocator(unsigned char *memory_begin_pointer,
   std::size_t free_block_count = memory_size_bytes_ / block_size_bytes_;
   unsigned char *block_ptr = begin_memory_pointer_;
   header_ = new (block_ptr) MemoryBlock();
-  MemoryBlock* tmp = header_;
+  MemoryBlock *tmp = header_;
   for (std::size_t i = 1; i < free_block_count; ++i) {
     block_ptr += block_size_bytes_;
     tmp->next_block = new (block_ptr) MemoryBlock();
@@ -33,7 +33,7 @@ void *allocators::PoolAllocator::Allocate() noexcept {
   return reinterpret_cast<void *>(allocated_memory);
 }
 
-void allocators::PoolAllocator::Free(void* memory_block_pointer) {
+void allocators::PoolAllocator::Free(void *memory_block_pointer) {
   ValidatePointerToFree(memory_block_pointer);
 
   auto *free_block = new (memory_block_pointer) MemoryBlock();
@@ -50,7 +50,7 @@ allocators::PoolAllocator::~PoolAllocator() {
   }
 }
 
-void allocators::PoolAllocator::ValidatePointerToFree(void* pointer) const {
+void allocators::PoolAllocator::ValidatePointerToFree(void *pointer) const {
   auto *memory_block_uc_ptr = static_cast<unsigned char *>(pointer);
   auto memory_block_uint_ptr = reinterpret_cast<std::uintptr_t>(pointer);
   auto begin_memory_pointer_uint_ptr = reinterpret_cast<std::uintptr_t>(begin_memory_pointer_);
@@ -60,7 +60,6 @@ void allocators::PoolAllocator::ValidatePointerToFree(void* pointer) const {
       (memory_block_uint_ptr - begin_memory_pointer_uint_ptr) % block_size_bytes_ != 0) {
     throw std::runtime_error("Invalid pointer.");
   }
-
 }
 
 void allocators::PoolAllocator::ValidateArenaPointer() const {

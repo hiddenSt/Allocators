@@ -7,7 +7,7 @@ Before you begin, ensure you have met the following requirements:
 * You have installed [google test library](https://github.com/google/googletest)
 
 ## Installing allocators library
-To install allocators library, follow these steps:
+To install allocators library, follow these steps:<br>
 Linux and macOS:
 ```shell script
 git clone https://github.com/hdnVrso/Allocators.git

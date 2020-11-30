@@ -1,7 +1,6 @@
 #include "stack_allocator.hpp"
 
 #include <cstdint>
-#include <memory>
 #include <stdexcept>
 
 allocators::StackAllocator::StackAllocator(unsigned char* memory_begin_pointer,
