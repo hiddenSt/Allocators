@@ -4,7 +4,7 @@ The main goal of this project is to provide some common memory allocation/free l
 
 ## Prerequisites
 Before you begin, ensure you have met the following requirements:
-* You have installed [google test library](https://github.com/google/googletest)
+
 
 ## Installing allocators library
 To install allocators library, follow these steps:<br>
