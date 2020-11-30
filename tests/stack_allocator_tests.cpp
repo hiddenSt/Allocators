@@ -56,7 +56,7 @@ TEST_F(StackAllocatorTest, CantDeallocateFreeMemory) {
   ASSERT_EQ(memory_request, allocated_memory_);
 }
 
-TEST_F(StackAllocatorTest, Alignmet) {
+TEST_F(StackAllocatorTest, AllocateReturnsCorrectAlignedPointer) {
   std::size_t mask = ~(alignment_ - 1);
   auto* memory_request = stack_allocator_->Allocate(10, alignment_);
   auto memory_ptr = reinterpret_cast<std::uintptr_t>(memory_request);
@@ -65,6 +65,5 @@ TEST_F(StackAllocatorTest, Alignmet) {
 
 TEST_F(StackAllocatorTest, ThrowsRunTimeErrorIfAlignmentIsNotPowerOf2) {
   std::size_t alignment = 5;
-
   ASSERT_THROW(stack_allocator_->Allocate(10, alignment), std::runtime_error);
 }

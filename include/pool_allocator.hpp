@@ -19,6 +19,9 @@ class PoolAllocator {
     MemoryBlock* next_block = nullptr;
   };
 
+  void ValidatePointerToFree(void* pointer) const;
+  void ValidateArenaPointer() const;
+
   const std::size_t block_size_bytes_;
   MemoryBlock* header_;
   uint64_t memory_size_bytes_;

@@ -74,3 +74,31 @@ TEST_F(PoolAllocatorTest, CantAllocateMoreThanNumberOfMemoryBlocks) {
 
   ASSERT_EQ(pool_allocator_->Allocate(), nullptr);
 }
+
+TEST_F(PoolAllocatorTest, ThrowsExceptionIfGivenToFreePointerIsNullptr) {
+  SetUpAllocator();
+  unsigned char* memory_request = static_cast<unsigned char*>(pool_allocator_->Allocate());
+  ASSERT_THROW(pool_allocator_->Free(nullptr), std::runtime_error);
+}
+
+TEST_F(PoolAllocatorTest, ThrowsExceptionIfGivenToFreePointerIsLessThanMemoryBeginPointer) {
+  SetUpAllocator();
+  unsigned char* memory_request = static_cast<unsigned char*>(pool_allocator_->Allocate());
+
+  memory_request -= 1;
+  ASSERT_THROW(pool_allocator_->Free(memory_request), std::runtime_error);
+}
+
+TEST_F(PoolAllocatorTest, ThrowsExceptionIfGivenToFreePointerIsGreaterThanMemoryArena) {
+  SetUpAllocator();
+  unsigned char* memory_request = static_cast<unsigned char*>(pool_allocator_->Allocate());
+  memory_request += memory_size_bytes_;
+  ASSERT_THROW(pool_allocator_->Free(memory_request), std::runtime_error);
+}
+
+TEST_F(PoolAllocatorTest, ThrowsExceptionIfGivenToFreePointerIsNotMultipleOfBlockSize) {
+  SetUpAllocator();
+  unsigned char* memory_request = static_cast<unsigned char*>(pool_allocator_->Allocate());
+  memory_request += 1;
+  ASSERT_THROW(pool_allocator_->Free(memory_request), std::runtime_error);
+}
