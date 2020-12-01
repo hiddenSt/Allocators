@@ -34,28 +34,16 @@ allocators::StackAllocator::~StackAllocator() noexcept {
 
 void* allocators::StackAllocator::Allocate(const uint64_t& size_bytes,
                                            const std::size_t& alignment) {
-  if ((alignment & alignment - 1) != 0) {
-    throw std::runtime_error("Alignment has to be power of 2");
-  }
+  ValidateAlignmentIsPowerOfTwo(alignment);
 
   if (size_bytes == 0) {
     throw std::logic_error("Can not allocate 0 bytes.");
   }
 
+  std::size_t adjustment = GetAdjustmentToAlignMemoryAddress(top_memory_pointer_, alignment);
   auto unaligned_memory = reinterpret_cast<std::uintptr_t>(top_memory_pointer_);
-  std::size_t mask = ~(alignment - 1);
-  std::uintptr_t masked_memory = mask & unaligned_memory;
 
-  std::uintptr_t aligned_memory_address = 0;
-  std::size_t adjustment = 0;
-
-  if (unaligned_memory == masked_memory) {
-    aligned_memory_address = unaligned_memory;
-  } else {
-    aligned_memory_address = (unaligned_memory + alignment - 1) & mask;
-    adjustment = static_cast<std::size_t>(aligned_memory_address - unaligned_memory);
-  }
-
+  std::uintptr_t aligned_memory_address = unaligned_memory + adjustment;
   if (top_memory_pointer_ + adjustment + size_bytes + sizeof(uint64_t) >
       begin_memory_pointer_ + memory_size_bytes_) {
     return nullptr;
@@ -77,4 +65,28 @@ void allocators::StackAllocator::Free() noexcept {
   top_memory_pointer_ -= sizeof(uint64_t);
   auto block_size_bytes = static_cast<uint64_t>(*top_memory_pointer_);
   top_memory_pointer_ -= block_size_bytes;
+}
+
+void allocators::StackAllocator::ValidateAlignmentIsPowerOfTwo(const size_t& alignment) const {
+  if ((alignment & alignment - 1) != 0) {
+    throw std::runtime_error("Alignment has to be power of 2");
+  }
+}
+
+std::size_t allocators::StackAllocator::GetAdjustmentToAlignMemoryAddress(
+    unsigned char* memory_address, const size_t& alignment) const noexcept {
+  auto unaligned_memory = reinterpret_cast<std::uintptr_t>(memory_address);
+  std::size_t mask = ~(alignment - 1);
+  std::uintptr_t masked_memory = mask & unaligned_memory;
+
+  std::uintptr_t aligned_memory_address = 0;
+  std::size_t adjustment = 0;
+
+  if (unaligned_memory == masked_memory) {
+    return adjustment;
+  } else {
+    aligned_memory_address = (unaligned_memory + alignment - 1) & mask;
+    adjustment = static_cast<std::size_t>(aligned_memory_address - unaligned_memory);
+    return adjustment;
+  }
 }

@@ -9,7 +9,7 @@ allocators::PoolAllocator::PoolAllocator(unsigned char *memory_begin_pointer,
       memory_size_bytes_(memory_size_bytes),
       header_(nullptr),
       block_size_bytes_(block_size_bytes) {
-  ValidateArenaPointer();
+  ValidateGivenPointerToMemoryBegin();
 
   std::size_t free_block_count = memory_size_bytes_ / block_size_bytes_;
   unsigned char *block_ptr = begin_memory_pointer_;
@@ -62,7 +62,7 @@ void allocators::PoolAllocator::ValidatePointerToFree(void *pointer) const {
   }
 }
 
-void allocators::PoolAllocator::ValidateArenaPointer() const {
+void allocators::PoolAllocator::ValidateGivenPointerToMemoryBegin() const {
   if (memory_size_bytes_ % block_size_bytes_ != 0) {
     throw std::logic_error("Given memory arena size does not multiple of given block size.");
   }

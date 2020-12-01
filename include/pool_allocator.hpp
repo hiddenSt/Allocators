@@ -20,7 +20,7 @@ class PoolAllocator {
   };
 
   void ValidatePointerToFree(void* pointer) const;
-  void ValidateArenaPointer() const;
+  void ValidateGivenPointerToMemoryBegin() const;
 
   const std::size_t block_size_bytes_;
   MemoryBlock* header_;

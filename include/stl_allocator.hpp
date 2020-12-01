@@ -26,7 +26,7 @@ StlAllocator<T, AllocationStrategy>::StlAllocator(const AllocationStrategy& allo
 
 template <typename T, typename AllocationStrategy>
 T* StlAllocator<T, AllocationStrategy>::allocate(std::size_t n) {
-  return static_cast<T*>(allocation_strategy_->Allocate(n*sizeof(T)));
+  return static_cast<T*>(allocation_strategy_->Allocate(n * sizeof(T)));
 }
 
 template <typename T, typename AllocationStrategy>
