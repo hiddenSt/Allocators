@@ -85,7 +85,7 @@ TEST_F(PoolAllocatorTest, ThrowsExceptionIfGivenToFreePointerIsLessThanMemoryBeg
   SetUpAllocator();
   unsigned char* memory_request = static_cast<unsigned char*>(pool_allocator_->Allocate());
 
-  memory_request -= 1;
+  memory_request = allocated_memory_ - 1;
   ASSERT_THROW(pool_allocator_->Free(memory_request), std::runtime_error);
 }
 
