@@ -102,3 +102,9 @@ TEST_F(PoolAllocatorTest, ThrowsExceptionIfGivenToFreePointerIsNotMultipleOfBloc
   memory_request += 1;
   ASSERT_THROW(pool_allocator_->Free(memory_request), std::runtime_error);
 }
+
+TEST_F(PoolAllocatorTest, ThrowsExceptionIfGivenMemoryBlockSizeGreaterThanGivenMemoryArena) {
+  memory_size_bytes_ = 10;
+  block_size_bytes_ = 11;
+  ASSERT_THROW(SetUpAllocator(), std::logic_error);
+}

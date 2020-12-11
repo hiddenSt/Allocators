@@ -67,6 +67,10 @@ void allocators::PoolAllocator::ValidateGivenPointerToMemoryBegin() const {
     throw std::logic_error("Given memory arena size does not multiple of given block size.");
   }
 
+  if (block_size_bytes_ > memory_size_bytes_) {
+    throw std::logic_error("Given memory block size is more than memory arena size.");
+  }
+
   if (begin_memory_pointer_ == nullptr) {
     throw std::logic_error("Given memory begin pointer is nullptr.");
   }
