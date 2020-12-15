@@ -3,3 +3,4 @@ BasedOnStyle: Google
 Language: Cpp
 ColumnLimit: 100
 AllowShortFunctionsOnASingleLine: None
+PointerAlignment: Left

@@ -37,6 +37,4 @@
 #CMake
 /cmake-build*
 
-#libs
-/libs
 
