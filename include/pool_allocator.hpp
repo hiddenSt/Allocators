@@ -11,6 +11,12 @@ class PoolAllocator {
                          const uint64_t& block_size_bytes);
   ~PoolAllocator();
 
+  PoolAllocator(PoolAllocator&& other) noexcept;
+  PoolAllocator(const PoolAllocator& other) = delete;
+
+  PoolAllocator& operator=(const PoolAllocator& other) = delete;
+  PoolAllocator& operator=(PoolAllocator&& other) = delete;
+
   void* Allocate() noexcept;
   void Free(void* memory_block_pointer);
 

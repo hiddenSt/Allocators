@@ -83,3 +83,13 @@ void allocators::PoolAllocator::ValidateGivenPointerToMemoryBegin() const {
     throw std::logic_error("Given block size is less than 8 size of MemoryBlock.");
   }
 }
+
+allocators::PoolAllocator::PoolAllocator(allocators::PoolAllocator &&other) noexcept
+    : memory_size_bytes_(other.memory_size_bytes_),
+      block_size_bytes_(other.block_size_bytes_),
+      begin_memory_pointer_(other.begin_memory_pointer_),
+      header_(other.header_) {
+  other.memory_size_bytes_ = 0;
+  other.header_ = nullptr;
+  other.begin_memory_pointer_ = nullptr;
+}
