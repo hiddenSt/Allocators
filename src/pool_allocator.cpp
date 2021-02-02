@@ -2,7 +2,9 @@
 
 #include <stdexcept>
 
-allocators::PoolAllocator::PoolAllocator(unsigned char *memory_begin_pointer,
+namespace allocators {
+
+PoolAllocator::PoolAllocator(unsigned char *memory_begin_pointer,
                                          const uint64_t &memory_size_bytes,
                                          const uint64_t &block_size_bytes)
     : begin_memory_pointer_(memory_begin_pointer),
@@ -22,7 +24,7 @@ allocators::PoolAllocator::PoolAllocator(unsigned char *memory_begin_pointer,
   }
 }
 
-void *allocators::PoolAllocator::Allocate() noexcept {
+void* PoolAllocator::Allocate() noexcept {
   if (header_ == nullptr) {
     return nullptr;
   }
@@ -33,7 +35,7 @@ void *allocators::PoolAllocator::Allocate() noexcept {
   return reinterpret_cast<void *>(allocated_memory);
 }
 
-void allocators::PoolAllocator::Free(void *memory_block_pointer) {
+void PoolAllocator::Free(void *memory_block_pointer) {
   ValidatePointerToFree(memory_block_pointer);
 
   auto *free_block = new (memory_block_pointer) MemoryBlock();
@@ -50,7 +52,7 @@ allocators::PoolAllocator::~PoolAllocator() {
   }
 }
 
-void allocators::PoolAllocator::ValidatePointerToFree(void *pointer) const {
+void PoolAllocator::ValidatePointerToFree(void *pointer) const {
   auto *memory_block_uc_ptr = static_cast<unsigned char *>(pointer);
   auto memory_block_uint_ptr = reinterpret_cast<std::uintptr_t>(pointer);
   auto begin_memory_pointer_uint_ptr = reinterpret_cast<std::uintptr_t>(begin_memory_pointer_);
@@ -62,7 +64,7 @@ void allocators::PoolAllocator::ValidatePointerToFree(void *pointer) const {
   }
 }
 
-void allocators::PoolAllocator::ValidateGivenPointerToMemoryBegin() const {
+void PoolAllocator::ValidateGivenPointerToMemoryBegin() const {
   if (memory_size_bytes_ % block_size_bytes_ != 0) {
     throw std::logic_error("Given memory arena size does not multiple of given block size.");
   }
@@ -84,7 +86,7 @@ void allocators::PoolAllocator::ValidateGivenPointerToMemoryBegin() const {
   }
 }
 
-allocators::PoolAllocator::PoolAllocator(allocators::PoolAllocator &&other) noexcept
+PoolAllocator::PoolAllocator(PoolAllocator &&other) noexcept
     : memory_size_bytes_(other.memory_size_bytes_),
       block_size_bytes_(other.block_size_bytes_),
       begin_memory_pointer_(other.begin_memory_pointer_),
@@ -93,3 +95,5 @@ allocators::PoolAllocator::PoolAllocator(allocators::PoolAllocator &&other) noex
   other.header_ = nullptr;
   other.begin_memory_pointer_ = nullptr;
 }
+
+}  // namespace allocators

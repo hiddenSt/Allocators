@@ -3,7 +3,9 @@
 #include <cstdint>
 #include <stdexcept>
 
-allocators::StackAllocator::StackAllocator(unsigned char* memory_begin_pointer,
+namespace allocators {
+
+StackAllocator::StackAllocator(unsigned char* memory_begin_pointer,
                                            const uint64_t& memory_size_bytes)
     : begin_memory_pointer_(memory_begin_pointer),
       memory_size_bytes_(memory_size_bytes),
@@ -17,7 +19,7 @@ allocators::StackAllocator::StackAllocator(unsigned char* memory_begin_pointer,
   }
 }
 
-allocators::StackAllocator::StackAllocator(allocators::StackAllocator&& other) noexcept
+StackAllocator::StackAllocator(StackAllocator&& other) noexcept
     : begin_memory_pointer_(other.begin_memory_pointer_),
       top_memory_pointer_(other.top_memory_pointer_),
       memory_size_bytes_(other.memory_size_bytes_) {
@@ -32,7 +34,7 @@ allocators::StackAllocator::~StackAllocator() noexcept {
   memory_size_bytes_ = 0;
 }
 
-void* allocators::StackAllocator::Allocate(const uint64_t& size_bytes,
+void* StackAllocator::Allocate(const uint64_t& size_bytes,
                                            const std::size_t& alignment) {
   ValidateAlignmentIsPowerOfTwo(alignment);
 
@@ -57,7 +59,7 @@ void* allocators::StackAllocator::Allocate(const uint64_t& size_bytes,
   return reinterpret_cast<void*>(aligned_memory_address);
 }
 
-void allocators::StackAllocator::Free() noexcept {
+void StackAllocator::Free() noexcept {
   if (top_memory_pointer_ == begin_memory_pointer_) {
     return;
   }
@@ -67,13 +69,13 @@ void allocators::StackAllocator::Free() noexcept {
   top_memory_pointer_ -= block_size_bytes;
 }
 
-void allocators::StackAllocator::ValidateAlignmentIsPowerOfTwo(const size_t& alignment) const {
+void StackAllocator::ValidateAlignmentIsPowerOfTwo(const size_t& alignment) const {
   if ((alignment & alignment - 1) != 0) {
     throw std::runtime_error("Alignment has to be power of 2");
   }
 }
 
-std::size_t allocators::StackAllocator::GetAdjustmentToAlignMemoryAddress(
+std::size_t StackAllocator::GetAdjustmentToAlignMemoryAddress(
     unsigned char* memory_address, const size_t& alignment) const noexcept {
   auto unaligned_memory = reinterpret_cast<std::uintptr_t>(memory_address);
   std::size_t mask = ~(alignment - 1);
@@ -90,3 +92,5 @@ std::size_t allocators::StackAllocator::GetAdjustmentToAlignMemoryAddress(
     return adjustment;
   }
 }
+
+}  // namespace allocators
