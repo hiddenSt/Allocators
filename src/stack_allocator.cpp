@@ -6,7 +6,7 @@
 namespace allocators {
 
 StackAllocator::StackAllocator(unsigned char* memory_begin_pointer,
-                                           const uint64_t& memory_size_bytes)
+                               const uint64_t& memory_size_bytes)
     : begin_memory_pointer_(memory_begin_pointer),
       memory_size_bytes_(memory_size_bytes),
       top_memory_pointer_(memory_begin_pointer) {
@@ -34,8 +34,7 @@ allocators::StackAllocator::~StackAllocator() noexcept {
   memory_size_bytes_ = 0;
 }
 
-void* StackAllocator::Allocate(const uint64_t& size_bytes,
-                                           const std::size_t& alignment) {
+void* StackAllocator::Allocate(const uint64_t& size_bytes, const std::size_t& alignment) {
   ValidateAlignmentIsPowerOfTwo(alignment);
 
   if (size_bytes == 0) {

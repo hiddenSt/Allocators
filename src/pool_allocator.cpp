@@ -4,9 +4,8 @@
 
 namespace allocators {
 
-PoolAllocator::PoolAllocator(unsigned char *memory_begin_pointer,
-                                         const uint64_t &memory_size_bytes,
-                                         const uint64_t &block_size_bytes)
+PoolAllocator::PoolAllocator(unsigned char* memory_begin_pointer, const uint64_t& memory_size_bytes,
+                             const uint64_t& block_size_bytes)
     : begin_memory_pointer_(memory_begin_pointer),
       memory_size_bytes_(memory_size_bytes),
       header_(nullptr),
@@ -14,9 +13,9 @@ PoolAllocator::PoolAllocator(unsigned char *memory_begin_pointer,
   ValidateGivenPointerToMemoryBegin();
 
   std::size_t free_block_count = memory_size_bytes_ / block_size_bytes_;
-  unsigned char *block_ptr = begin_memory_pointer_;
+  unsigned char* block_ptr = begin_memory_pointer_;
   header_ = new (block_ptr) MemoryBlock();
-  MemoryBlock *tmp = header_;
+  MemoryBlock* tmp = header_;
   for (std::size_t i = 1; i < free_block_count; ++i) {
     block_ptr += block_size_bytes_;
     tmp->next_block = new (block_ptr) MemoryBlock();
@@ -29,16 +28,16 @@ void* PoolAllocator::Allocate() noexcept {
     return nullptr;
   }
 
-  auto *allocated_memory = header_;
+  auto* allocated_memory = header_;
   header_ = header_->next_block;
   header_->~MemoryBlock();
-  return reinterpret_cast<void *>(allocated_memory);
+  return reinterpret_cast<void*>(allocated_memory);
 }
 
-void PoolAllocator::Free(void *memory_block_pointer) {
+void PoolAllocator::Free(void* memory_block_pointer) {
   ValidatePointerToFree(memory_block_pointer);
 
-  auto *free_block = new (memory_block_pointer) MemoryBlock();
+  auto* free_block = new (memory_block_pointer) MemoryBlock();
   free_block->next_block = header_;
   header_ = free_block;
 }
@@ -52,8 +51,8 @@ allocators::PoolAllocator::~PoolAllocator() {
   }
 }
 
-void PoolAllocator::ValidatePointerToFree(void *pointer) const {
-  auto *memory_block_uc_ptr = static_cast<unsigned char *>(pointer);
+void PoolAllocator::ValidatePointerToFree(void* pointer) const {
+  auto* memory_block_uc_ptr = static_cast<unsigned char*>(pointer);
   auto memory_block_uint_ptr = reinterpret_cast<std::uintptr_t>(pointer);
   auto begin_memory_pointer_uint_ptr = reinterpret_cast<std::uintptr_t>(begin_memory_pointer_);
 
@@ -86,7 +85,7 @@ void PoolAllocator::ValidateGivenPointerToMemoryBegin() const {
   }
 }
 
-PoolAllocator::PoolAllocator(PoolAllocator &&other) noexcept
+PoolAllocator::PoolAllocator(PoolAllocator&& other) noexcept
     : memory_size_bytes_(other.memory_size_bytes_),
       block_size_bytes_(other.block_size_bytes_),
       begin_memory_pointer_(other.begin_memory_pointer_),
