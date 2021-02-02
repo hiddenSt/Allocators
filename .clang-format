@@ -1,6 +1,7 @@
 BasedOnStyle: Google
-
+---
 Language: Cpp
 ColumnLimit: 100
 AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: false
 PointerAlignment: Left
