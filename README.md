@@ -34,4 +34,4 @@ We are using [Google C++ Style Guide](https://google.github.io/styleguide/cppgui
 We using clang-format tool to auto formatting. 
 
 ## Contact
-If you want to contact me you can reach me at hiddenstmail@gmail.com
+If you want to contact me you can reach me at ```hiddenstmail@gmail.com```
