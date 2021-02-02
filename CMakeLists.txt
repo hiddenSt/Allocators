@@ -4,10 +4,15 @@ project(Allocators)
 
 include_directories(include)
 
+get_filename_component(LIB_PATH "." ABSOLUTE)
+
+file(GLOB_RECURSE LIB_HEADERS ${LIB_PATH}/include/*.hpp)
+file(GLOB_RECURSE LIB_CXX_SOURCES ${LIB_PATH}/src/*.cpp)
+
+add_library(Allocators ${LIB_HEADERS} ${LIB_CXX_SOURCES})
+
 add_subdirectory(libs)
 add_subdirectory(tests)
 
-set(HEADERS include/stack_allocator.hpp include/pool_allocator.hpp include/stl_allocator.hpp)
-set(SOURCES src/stack_allocator.cpp src/pool_allocator.cpp)
 
-add_library(Allocators ${HEADERS} ${SOURCES})
+
