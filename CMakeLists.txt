@@ -12,6 +12,3 @@ target_include_directories(Allocators PUBLIC ${LIB_PATH}/include)
 
 add_subdirectory(libs)
 add_subdirectory(tests)
-
-
-
