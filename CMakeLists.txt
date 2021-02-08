@@ -12,6 +12,3 @@ target_include_directories(Allocators PUBLIC "${LIB_PATH}/include")
 
 add_subdirectory(third-party)
 add_subdirectory(tests)
-
-
-
