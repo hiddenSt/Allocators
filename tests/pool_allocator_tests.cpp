@@ -58,8 +58,8 @@ TEST_F(PoolAllocatorTest, DeallocationWorks) {
 
 TEST_F(PoolAllocatorTest, MultipleAllocationsWorks) {
   SetUpAllocator();
-  unsigned char* memory_request_1 = static_cast<unsigned char*>(pool_allocator_->Allocate());
-  unsigned char* memory_request_2 = static_cast<unsigned char*>(pool_allocator_->Allocate());
+  auto* memory_request_1 = static_cast<unsigned char*>(pool_allocator_->Allocate());
+  auto* memory_request_2 = static_cast<unsigned char*>(pool_allocator_->Allocate());
   ASSERT_NE(memory_request_2, memory_request_1);
   ASSERT_GE(abs(memory_request_2 - memory_request_1), block_size_bytes_);
 }
@@ -77,28 +77,27 @@ TEST_F(PoolAllocatorTest, CantAllocateMoreThanNumberOfMemoryBlocks) {
 
 TEST_F(PoolAllocatorTest, ThrowsExceptionIfGivenToFreePointerIsNullptr) {
   SetUpAllocator();
-  unsigned char* memory_request = static_cast<unsigned char*>(pool_allocator_->Allocate());
+  auto* memory_request = static_cast<unsigned char*>(pool_allocator_->Allocate());
   ASSERT_THROW(pool_allocator_->Free(nullptr), std::runtime_error);
 }
 
 TEST_F(PoolAllocatorTest, ThrowsExceptionIfGivenToFreePointerIsLessThanMemoryBeginPointer) {
   SetUpAllocator();
-  unsigned char* memory_request = static_cast<unsigned char*>(pool_allocator_->Allocate());
-
+  auto* memory_request = static_cast<unsigned char*>(pool_allocator_->Allocate());
   memory_request = allocated_memory_ - 1;
   ASSERT_THROW(pool_allocator_->Free(memory_request), std::runtime_error);
 }
 
 TEST_F(PoolAllocatorTest, ThrowsExceptionIfGivenToFreePointerIsGreaterThanMemoryArena) {
   SetUpAllocator();
-  unsigned char* memory_request = static_cast<unsigned char*>(pool_allocator_->Allocate());
+  auto* memory_request = static_cast<unsigned char*>(pool_allocator_->Allocate());
   memory_request += memory_size_bytes_;
   ASSERT_THROW(pool_allocator_->Free(memory_request), std::runtime_error);
 }
 
 TEST_F(PoolAllocatorTest, ThrowsExceptionIfGivenToFreePointerIsNotMultipleOfBlockSize) {
   SetUpAllocator();
-  unsigned char* memory_request = static_cast<unsigned char*>(pool_allocator_->Allocate());
+  auto* memory_request = static_cast<unsigned char*>(pool_allocator_->Allocate());
   memory_request += 1;
   ASSERT_THROW(pool_allocator_->Free(memory_request), std::runtime_error);
 }

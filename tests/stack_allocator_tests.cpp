@@ -15,30 +15,25 @@ class StackAllocatorTest : public ::testing::Test {
 };
 
 TEST_F(StackAllocatorTest, AllocationWorks) {
-  char* memory_request = nullptr;
-  memory_request = static_cast<char*>(stack_allocator_->Allocate(5, alignment_));
+  auto* memory_request = static_cast<unsigned char*>(stack_allocator_->Allocate(5, alignment_));
   ASSERT_NE(memory_request, nullptr);
 }
 
 TEST_F(StackAllocatorTest, DeallocationWorks) {
-  char* memory_request_1 = nullptr;
-  memory_request_1 = static_cast<char*>(stack_allocator_->Allocate(5, alignment_));
+  auto* memory_request_1 = static_cast<unsigned char*>(stack_allocator_->Allocate(5, alignment_));
   ASSERT_NE(memory_request_1, nullptr);
 
   stack_allocator_->Free();
 
-  char* memory_request_2 = nullptr;
-  memory_request_2 = static_cast<char*>(stack_allocator_->Allocate(10, alignment_));
+  auto* memory_request_2 = static_cast<unsigned char*>(stack_allocator_->Allocate(10, alignment_));
   ASSERT_EQ(memory_request_2, memory_request_1);
 }
 
 TEST_F(StackAllocatorTest, MultipleAllocationsWorks) {
-  char* memory_request_1 = nullptr;
-  memory_request_1 = static_cast<char*>(stack_allocator_->Allocate(5, alignment_));
+  auto* memory_request_1 = static_cast<unsigned char*>(stack_allocator_->Allocate(5, alignment_));
   ASSERT_NE(memory_request_1, nullptr);
 
-  char* memory_request_2 = nullptr;
-  memory_request_2 = static_cast<char*>(stack_allocator_->Allocate(5, alignment_));
+  auto* memory_request_2 = static_cast<unsigned char*>(stack_allocator_->Allocate(5, alignment_));
   ASSERT_NE(memory_request_2, nullptr);
 
   ASSERT_GT(memory_request_2, memory_request_1);
@@ -46,7 +41,7 @@ TEST_F(StackAllocatorTest, MultipleAllocationsWorks) {
 
 TEST_F(StackAllocatorTest, AllocationLimitsWorks) {
   auto* memory_request =
-      static_cast<char*>(stack_allocator_->Allocate(memory_size_bytes_, alignment_));
+      static_cast<unsigned char*>(stack_allocator_->Allocate(memory_size_bytes_, alignment_));
   ASSERT_EQ(memory_request, nullptr);
 }
 
