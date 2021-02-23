@@ -1,16 +1,16 @@
-cmake_minimum_required(VERSION 3.10)
-project(Allocators VERSION 1.0)
+cmake_minimum_required(VERSION 3.14)
+project(allocators VERSION 1.0)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+include(cmake/ClangFormat.cmake)
+include(cmake/ClangTidy.cmake)
 
-get_filename_component(LIB_PATH "." ABSOLUTE)
-
-file(GLOB_RECURSE LIB_HEADERS ${LIB_PATH}/include/*.hpp)
-file(GLOB_RECURSE LIB_CXX_SOURCES ${LIB_PATH}/src/*.cpp)
-
-add_library(Allocators ${LIB_HEADERS} ${LIB_CXX_SOURCES})
-target_include_directories(Allocators PUBLIC "${LIB_PATH}/include")
+option(ALLOCATORS_DEVELOPER "Allocators development mode" OFF)
+option(ALLOCATORS_TESTS "Enable Allocators tests" OFF)
 
 add_subdirectory(third-party)
-add_subdirectory(tests)
+
+add_subdirectory(allocators)
+
+if(ALLOCATORS_TESTS OR ALLOCATORS_DEVELOPER)
+  add_subdirectory(tests)
+endif()
