@@ -1,5 +1,5 @@
-#include "gtest/gtest.h"
-#include "stack_allocator.hpp"
+#include <gtest/gtest.h>
+#include <allocators/stack_allocator/stack_allocator.hpp>
 
 class StackAllocatorTest : public ::testing::Test {
  protected:

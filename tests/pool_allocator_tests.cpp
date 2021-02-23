@@ -1,5 +1,5 @@
-#include "gtest/gtest.h"
-#include "pool_allocator.hpp"
+#include <gtest/gtest.h>
+#include <allocators/pool_allocator/pool_allocator.hpp>
 
 class PoolAllocatorTest : public ::testing::Test {
  protected:
