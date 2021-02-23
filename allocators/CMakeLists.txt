@@ -5,7 +5,7 @@ file(GLOB_RECURSE LIB_CXX_SOURCES ${LIB_PATH}/*.cpp)
 file(GLOB_RECURSE LIB_HEADERS ${LIB_PATH}/*.cpp)
 
 add_library(allocators STATIC ${LIB_CXX_SOURCES} ${LIB_HEADERS})
-target_include_directories(allocators PUBLIC ${LIB_INCLUDE_PATH})
+target_include_directories(allocators PRIVATE ${LIB_INCLUDE_PATH})
 
 # Linters
 
