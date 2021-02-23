@@ -13,4 +13,4 @@ add_subdirectory(allocators)
 
 if(ALLOCATORS_TESTS OR ALLOCATORS_DEVELOPER)
   add_subdirectory(tests)
-endif
+endif()
