@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+
 #include <allocators/stack_allocator/stack_allocator.hpp>
 
 class StackAllocatorTest : public ::testing::Test {

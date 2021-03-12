@@ -56,6 +56,7 @@ void* StackAllocator::Allocate(const uint64_t& size_bytes, const std::size_t& al
   top_memory_pointer_ += sizeof(uint64_t);
 
   return reinterpret_cast<void*>(aligned_memory_address);
+
 }
 
 void StackAllocator::Free() noexcept {

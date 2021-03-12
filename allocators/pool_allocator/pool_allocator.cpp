@@ -24,6 +24,10 @@ PoolAllocator::PoolAllocator(unsigned char* memory_begin_pointer, const uint64_t
 }
 
 void* PoolAllocator::Allocate() noexcept {
+  std::lock_guard<std::mutex> lock(alloc_mutex_);
+
+  // Critical section
+
   if (header_ == nullptr) {
     return nullptr;
   }
@@ -32,14 +36,19 @@ void* PoolAllocator::Allocate() noexcept {
   header_ = header_->next_block;
   header_->~MemoryBlock();
   return reinterpret_cast<void*>(allocated_memory);
+  // End of critical section
 }
 
 void PoolAllocator::Free(void* memory_block_pointer) {
   ValidatePointerToFree(memory_block_pointer);
 
+  std::lock_guard<std::mutex> lock(alloc_mutex_);
+
+  // Critical section
   auto* free_block = new (memory_block_pointer) MemoryBlock();
   free_block->next_block = header_;
   header_ = free_block;
+  // End of critical section
 }
 
 allocators::PoolAllocator::~PoolAllocator() {
