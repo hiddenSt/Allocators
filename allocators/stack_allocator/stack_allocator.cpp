@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <stdexcept>
 
+#include <allocators/pointer_arithmetic/pointer_arithmetic.hpp>
+
 namespace allocators {
 
 StackAllocator::StackAllocator(unsigned char* memory_begin_pointer,
@@ -41,7 +43,9 @@ void* StackAllocator::Allocate(const uint64_t& size_bytes, const std::size_t& al
     throw std::logic_error("Can not allocate 0 bytes.");
   }
 
-  std::size_t adjustment = GetAdjustmentToAlignMemoryAddress(top_memory_pointer_, alignment);
+  PointerArithmetic pointer_arithmetic(alignment);
+  std::size_t adjustment = pointer_arithmetic.GetAdjustment(top_memory_pointer_);
+
   auto unaligned_memory = reinterpret_cast<std::uintptr_t>(top_memory_pointer_);
 
   std::uintptr_t aligned_memory_address = unaligned_memory + adjustment;
@@ -51,8 +55,7 @@ void* StackAllocator::Allocate(const uint64_t& size_bytes, const std::size_t& al
   }
 
   top_memory_pointer_ += adjustment + size_bytes;
-  auto* block_size = new (top_memory_pointer_) uint64_t();
-  *block_size = adjustment + size_bytes;
+  auto* block_size = new (top_memory_pointer_) uint64_t(adjustment + size_bytes);
   top_memory_pointer_ += sizeof(uint64_t);
 
   return reinterpret_cast<void*>(aligned_memory_address);
@@ -72,24 +75,6 @@ void StackAllocator::Free() noexcept {
 void StackAllocator::ValidateAlignmentIsPowerOfTwo(const size_t& alignment) const {
   if ((alignment & alignment - 1) != 0) {
     throw std::runtime_error("Alignment has to be power of 2");
-  }
-}
-
-std::size_t StackAllocator::GetAdjustmentToAlignMemoryAddress(
-    unsigned char* memory_address, const size_t& alignment) const noexcept {
-  auto unaligned_memory = reinterpret_cast<std::uintptr_t>(memory_address);
-  std::size_t mask = ~(alignment - 1);
-  std::uintptr_t masked_memory = mask & unaligned_memory;
-
-  std::uintptr_t aligned_memory_address = 0;
-  std::size_t adjustment = 0;
-
-  if (unaligned_memory == masked_memory) {
-    return adjustment;
-  } else {
-    aligned_memory_address = (unaligned_memory + alignment - 1) & mask;
-    adjustment = static_cast<std::size_t>(aligned_memory_address - unaligned_memory);
-    return adjustment;
   }
 }
 

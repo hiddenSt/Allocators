@@ -12,11 +12,11 @@ PoolAllocator::PoolAllocator(unsigned char* memory_begin_pointer, const uint64_t
       block_size_bytes_(block_size_bytes) {
   ValidateGivenPointerToMemoryBegin();
 
-  std::size_t free_block_count = memory_size_bytes_ / block_size_bytes_;
+  std::size_t free_blocks_amount = memory_size_bytes_ / block_size_bytes_;
   unsigned char* block_ptr = begin_memory_pointer_;
   header_ = new (block_ptr) MemoryBlock();
   MemoryBlock* tmp = header_;
-  for (std::size_t i = 1; i < free_block_count; ++i) {
+  for (std::size_t i = 1; i < free_blocks_amount; ++i) {
     block_ptr += block_size_bytes_;
     tmp->next_block = new (block_ptr) MemoryBlock();
     tmp = tmp->next_block;
@@ -43,7 +43,6 @@ void PoolAllocator::Free(void* memory_block_pointer) {
   ValidatePointerToFree(memory_block_pointer);
 
   std::lock_guard<std::mutex> lock(alloc_mutex_);
-
   // Critical section
   auto* free_block = new (memory_block_pointer) MemoryBlock();
   free_block->next_block = header_;
@@ -68,7 +67,7 @@ void PoolAllocator::ValidatePointerToFree(void* pointer) const {
   if (memory_block_uc_ptr >= begin_memory_pointer_ + memory_size_bytes_ ||
       memory_block_uc_ptr < begin_memory_pointer_ ||
       (memory_block_uint_ptr - begin_memory_pointer_uint_ptr) % block_size_bytes_ != 0) {
-    throw std::runtime_error("Invalid pointer.");
+    throw std::logic_error("Invalid pointer.");
   }
 }
 
@@ -100,8 +99,8 @@ PoolAllocator::PoolAllocator(PoolAllocator&& other) noexcept
       begin_memory_pointer_(other.begin_memory_pointer_),
       header_(other.header_) {
   other.memory_size_bytes_ = 0;
-  other.header_ = nullptr;
   other.begin_memory_pointer_ = nullptr;
+  other.header_ = nullptr;
 }
 
 }  // namespace allocators

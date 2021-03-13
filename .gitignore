@@ -34,4 +34,7 @@
 # CMake
 /cmake-build-*
 
+# Build dir
+/build*
+
 

@@ -5,9 +5,15 @@
 
 namespace allocators {
 
-class PointerMath {
+class PointerArithmetic {
  public:
-  std::uintptr_t GetAlignedAddress();
+  explicit PointerArithmetic(const std::size_t& alignment);
+  ~PointerArithmetic() = default;
+
+  std::size_t GetAdjustment(unsigned char* memory_address) const noexcept;
+
+ private:
+  std::size_t alignment_;
 };
 
 }  // namespace allocators

@@ -20,8 +20,6 @@ class StackAllocator {
 
  private:
   void ValidateAlignmentIsPowerOfTwo(const std::size_t& alignment) const;
-  std::size_t GetAdjustmentToAlignMemoryAddress(unsigned char* memory_address,
-                                                const std::size_t& alignment) const noexcept;
 
   unsigned char* begin_memory_pointer_;
   unsigned char* top_memory_pointer_;
