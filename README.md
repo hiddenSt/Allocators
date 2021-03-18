@@ -15,9 +15,10 @@ Linux and macOS:
 ```shell script
 git clone https://github.com/hdnVrso/Allocators.git
 ``` 
-After that you need to add headers to ```cmake include directories```
+After that you need to add Allocator_targets to your targets that is using this library
 ```cmake
-include_directories(${Allocators_SOURCE_DIR}/include)
+target_include_directories(your_target PRIVATE {allocators_SOURCE_DIR})
+target_link_libraries(your_target PRIVATE allocators)
 ```
 
 ### Running tests
