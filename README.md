@@ -23,6 +23,9 @@ target_link_libraries(your_target PRIVATE allocators)
 
 ### Running tests
 We use googletest for unit tests in this project. To run test follow these steps:
+1. Build project
+2. In your build directory find executable called ```Run_Allocators_Tests```
+3. Execute it
 
 ## Contributing to Allocators
 To contribute to Allocators, you need these steps:
