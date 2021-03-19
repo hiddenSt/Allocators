@@ -31,7 +31,8 @@ We use googletest for unit tests in this project. To run test follow these steps
 To contribute to Allocators, you need these steps:
 1. Fork this repository
 2. Create a branch 
-3. Follow code style conventions.
+3. Follow code style conventions
+4. Make a pull request
 
 ### Code style
 We are using [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
