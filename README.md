@@ -21,7 +21,7 @@ target_include_directories(your_target PRIVATE {allocators_SOURCE_DIR})
 target_link_libraries(your_target PRIVATE allocators)
 ```
 
-### Running tests
+## Running tests
 We use googletest for unit tests in this project. To run test follow these steps:
 1. Build project
 2. In your build directory find executable called ```Run_Allocators_Tests```
@@ -34,7 +34,7 @@ To contribute to Allocators, you need these steps:
 3. Follow code style conventions
 4. Make a pull request
 
-### Code style
+## Code style
 We are using [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
 We using clang-format tool to auto formatting. 
 
