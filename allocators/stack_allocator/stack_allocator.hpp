@@ -7,7 +7,7 @@ namespace allocators {
 
 class StackAllocator {
  public:
-  explicit StackAllocator(unsigned char* memory_begin_pointer, const uint64_t& memory_size_bytes);
+  explicit StackAllocator(unsigned char* memory_begin_pointer, uint64_t memory_size_bytes);
   ~StackAllocator() noexcept;
   StackAllocator(StackAllocator&& other) noexcept;
   StackAllocator(const StackAllocator& other) noexcept = delete;
@@ -15,11 +15,11 @@ class StackAllocator {
   StackAllocator& operator=(const StackAllocator& other) = delete;
   StackAllocator& operator=(StackAllocator&& other) = delete;
 
-  void* Allocate(const uint64_t& size_bytes, const std::size_t& alignment);
+  void* Allocate(uint64_t size_bytes, std::size_t alignment);
   void Free() noexcept;
 
  private:
-  void ValidateAlignmentIsPowerOfTwo(const std::size_t& alignment) const;
+  void ValidateAlignmentIsPowerOfTwo(std::size_t alignment) const;
 
   unsigned char* begin_memory_pointer_;
   unsigned char* top_memory_pointer_;

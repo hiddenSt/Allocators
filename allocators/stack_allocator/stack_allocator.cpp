@@ -7,8 +7,7 @@
 
 namespace allocators {
 
-StackAllocator::StackAllocator(unsigned char* memory_begin_pointer,
-                               const uint64_t& memory_size_bytes)
+StackAllocator::StackAllocator(unsigned char* memory_begin_pointer, uint64_t memory_size_bytes)
     : begin_memory_pointer_(memory_begin_pointer),
       memory_size_bytes_(memory_size_bytes),
       top_memory_pointer_(memory_begin_pointer) {
@@ -36,7 +35,7 @@ allocators::StackAllocator::~StackAllocator() noexcept {
   memory_size_bytes_ = 0;
 }
 
-void* StackAllocator::Allocate(const uint64_t& size_bytes, const std::size_t& alignment) {
+void* StackAllocator::Allocate(uint64_t size_bytes, std::size_t alignment) {
   ValidateAlignmentIsPowerOfTwo(alignment);
 
   if (size_bytes == 0) {
@@ -72,7 +71,7 @@ void StackAllocator::Free() noexcept {
   top_memory_pointer_ -= block_size_bytes;
 }
 
-void StackAllocator::ValidateAlignmentIsPowerOfTwo(const size_t& alignment) const {
+void StackAllocator::ValidateAlignmentIsPowerOfTwo(std::size_t alignment) const {
   if ((alignment & alignment - 1) != 0) {
     throw std::runtime_error("Alignment has to be power of 2");
   }

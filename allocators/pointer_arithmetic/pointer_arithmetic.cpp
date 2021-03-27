@@ -2,7 +2,7 @@
 
 namespace allocators {
 
-PointerArithmetic::PointerArithmetic(const std::size_t& alignment) : alignment_(alignment) {
+PointerArithmetic::PointerArithmetic(std::size_t alignment) : alignment_(alignment) {
 }
 
 std::size_t PointerArithmetic::GetAdjustment(unsigned char* memory_address) const noexcept {

@@ -7,7 +7,7 @@ namespace allocators {
 
 class PointerArithmetic {
  public:
-  explicit PointerArithmetic(const std::size_t& alignment);
+  explicit PointerArithmetic(std::size_t alignment);
   ~PointerArithmetic() = default;
 
   std::size_t GetAdjustment(unsigned char* memory_address) const noexcept;

@@ -4,8 +4,8 @@
 
 namespace allocators {
 
-PoolAllocator::PoolAllocator(unsigned char* memory_begin_pointer, const uint64_t& memory_size_bytes,
-                             const uint64_t& block_size_bytes)
+PoolAllocator::PoolAllocator(unsigned char* memory_begin_pointer, uint64_t memory_size_bytes,
+                             uint64_t block_size_bytes)
     : begin_memory_pointer_(memory_begin_pointer),
       memory_size_bytes_(memory_size_bytes),
       header_(nullptr),
