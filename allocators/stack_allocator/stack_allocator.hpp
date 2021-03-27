@@ -19,8 +19,6 @@ class StackAllocator {
   void Free() noexcept;
 
  private:
-  void ValidateAlignmentIsPowerOfTwo(std::size_t alignment) const;
-
   unsigned char* begin_memory_pointer_;
   unsigned char* top_memory_pointer_;
   uint64_t memory_size_bytes_;

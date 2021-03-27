@@ -36,8 +36,6 @@ allocators::StackAllocator::~StackAllocator() noexcept {
 }
 
 void* StackAllocator::Allocate(uint64_t size_bytes, std::size_t alignment) {
-  ValidateAlignmentIsPowerOfTwo(alignment);
-
   if (size_bytes == 0) {
     throw std::logic_error("Can not allocate 0 bytes.");
   }
@@ -69,12 +67,6 @@ void StackAllocator::Free() noexcept {
   top_memory_pointer_ -= sizeof(uint64_t);
   auto block_size_bytes = static_cast<uint64_t>(*top_memory_pointer_);
   top_memory_pointer_ -= block_size_bytes;
-}
-
-void StackAllocator::ValidateAlignmentIsPowerOfTwo(std::size_t alignment) const {
-  if ((alignment & alignment - 1) != 0) {
-    throw std::runtime_error("Alignment has to be power of 2");
-  }
 }
 
 }  // namespace allocators

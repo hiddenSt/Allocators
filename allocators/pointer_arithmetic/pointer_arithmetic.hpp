@@ -10,9 +10,11 @@ class PointerArithmetic {
   explicit PointerArithmetic(std::size_t alignment);
   ~PointerArithmetic() = default;
 
-  std::size_t GetAdjustment(unsigned char* memory_address) const noexcept;
+  std::size_t GetAdjustment(const unsigned char* memory_address) const;
 
  private:
+  void ValidateAlignmentIsPowerOfTwo(std::size_t alignment) const;
+  void ValidateAlignmentIsGreaterOrEqualThan8(std::size_t alignment) const;
   std::size_t alignment_;
 };
 
