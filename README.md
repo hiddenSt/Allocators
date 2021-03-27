@@ -15,19 +15,24 @@ Linux and macOS:
 ```shell script
 git clone https://github.com/hdnVrso/Allocators.git
 ``` 
-After that you need to add headers to ```cmake include directories```
+After that you need to add Allocator_targets to your targets that is using this library
 ```cmake
-include_directories(${Allocators_SOURCE_DIR}/include)
+target_include_directories(your_target PRIVATE {allocators_SOURCE_DIR})
+target_link_libraries(your_target PRIVATE allocators)
 ```
 
 ### Running tests
 We use googletest for unit tests in this project. To run test follow these steps:
+1. Build project
+2. In your build directory find executable called ```Run_Allocators_Tests```
+3. Execute it
 
 ## Contributing to Allocators
 To contribute to Allocators, you need these steps:
 1. Fork this repository
 2. Create a branch 
-3. Follow code style conventions.
+3. Follow code style conventions
+4. Make a pull request
 
 ### Code style
 We are using [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
