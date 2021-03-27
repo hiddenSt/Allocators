@@ -2,7 +2,6 @@
 #define ALLOCATORS_INCLUDE_POOL_ALLOCATOR_HPP_
 
 #include <cstdint>
-#include <mutex>
 
 namespace allocators {
 
@@ -33,7 +32,6 @@ class PoolAllocator {
   MemoryBlock* header_;
   uint64_t memory_size_bytes_;
   unsigned char* begin_memory_pointer_;
-  std::mutex alloc_mutex_;
 };
 
 }  // namespace allocators
