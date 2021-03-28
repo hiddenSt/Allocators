@@ -23,16 +23,21 @@ target_link_libraries(your_target PRIVATE allocators)
 
 ## Running tests
 We use googletest for unit tests in this project. To run tests follow these steps:
-1. Build project
-2. In your build directory find executable called ```Run_Allocators_Tests```
-3. Execute it
+1. Run cmake with `-D ALLOCATORS_TESTS` option
+2. Build using `make` or the other build system 
+3. In your build directory find executable called `Run_Allocators_Tests`
+4. Execute it
 
 ## Contributing to Allocators
 To contribute to Allocators, you need these steps:
 1. Fork this repository
 2. Create a branch 
 3. Follow code style conventions
-4. Make a pull request
+4. Make sure you have installed `clang-format` and `clang-tidy` localy
+5. Use `-D ALLOCATORS_DEVELOPER` cmake option to generate `allocators_clang_tidy` and `allocators_clang_format` custom targets
+6. Run `allocators_clang_format` custom target using your build system to autoformat your to match codestyle conventions
+7. Run `allocators_clang_tidy` custom target using your build system to see `clang-tidy` recomendations
+8. Make a pull request
 
 ## Code style
 We are using [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
