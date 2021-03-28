@@ -24,7 +24,7 @@ target_link_libraries(your_target PRIVATE allocators)
 ```
 
 ## Running tests
-This project use [Google Test](https://github.com/google/googletest) for unit tests in this project. To run tests follow these steps:
+This project use [Google Test](https://github.com/google/googletest) for unit tests. To run tests follow these steps:
 1. Run cmake with `-D ALLOCATORS_TESTS` option
 2. Build using `make` or the other build system 
 3. In your build directory find executable called `Run_Allocators_Tests`
