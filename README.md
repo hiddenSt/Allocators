@@ -8,8 +8,6 @@ Before you begin, ensure you have met the following requirements:
 * You have installed the latest version of ```cmake```
 * You have installed `make` or another build system supported by `cmake`
 
-
-
 ## Installing allocators library
 To install allocators library, follow these steps:<br>
 Linux and macOS:
@@ -27,7 +25,7 @@ target_link_libraries(your_target PRIVATE allocators)
 This project use [Google Test](https://github.com/google/googletest) for unit tests. To run tests follow these steps:
 1. Run cmake with `-D ALLOCATORS_TESTS` option
 2. Build using `make` or the other build system 
-3. In your build directory find executable called `Run_Allocators_Tests`
+3. In your build directory go to `tests` directory and find executable called `Run_Allocators_Tests`
 4. Execute it
 
 ## Contributing to Allocators
