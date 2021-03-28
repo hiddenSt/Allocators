@@ -1,6 +1,6 @@
 # Allocators
 
-![master](https://github.com/github/hiddenSt/Allocators/actions/workflows/cmake.yml/badge.svg?branch=master)
+![master](https://github.com/hiddenSt/Allocators/actions/workflows/cmake.yml/badge.svg?branch=master)
 
 Allocators is a tool that allows you to do efficient memory management in your project.
 The main goal of this project is to provide some common memory allocation/free logic.
