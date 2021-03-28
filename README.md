@@ -6,6 +6,7 @@ The main goal of this project is to provide some common memory allocation/free l
 Before you begin, ensure you have met the following requirements:
 * You have installed ```clang``` version 10 or higher
 * You have installed the latest version of ```cmake```
+* You have installed `make` or another build system supported by `cmake`
 
 
 
@@ -14,8 +15,9 @@ To install allocators library, follow these steps:<br>
 Linux and macOS:
 ```shell script
 git clone https://github.com/hdnVrso/Allocators.git
-``` 
-After that you need to add Allocator_targets to your targets that is using this library
+```
+Populate library targets to your project<br>
+After that you need to add populated targets to your targets that is using this library
 ```cmake
 target_include_directories(your_target PRIVATE {allocators_SOURCE_DIR})
 target_link_libraries(your_target PRIVATE allocators)
@@ -40,8 +42,10 @@ To contribute to Allocators, you need these steps:
 8. Make a pull request
 
 ## Code style
-We are using [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
-We using clang-format tool to auto formatting. 
+This project follows [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html).
+This project use `clang-format` tool to auto formatting and `calng-tidy` tool to static analysis.
 
 ## Contact
-If you want to contact me you can reach me at ```hiddenstmail@gmail.com```
+If you want to contact me you can reach me at 
+* Email `hiddenstmail@gmail.com`<br>
+* Telegram `@hiddenSt1` 
