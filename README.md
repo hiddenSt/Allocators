@@ -16,7 +16,7 @@ Linux and macOS:
 ```shell script
 git clone https://github.com/hdnVrso/Allocators.git
 ```
-Populate library targets to your project<br>
+Populate library targets to your project(using `FetchContent`, `External_Project`, or the other method you like)<br>
 After that you need to add populated targets to your targets that is using this library
 ```cmake
 target_include_directories(your_target PRIVATE {allocators_SOURCE_DIR})
