@@ -35,7 +35,7 @@ To contribute to Allocators, you need these steps:
 3. Follow code style conventions
 4. Make sure you have installed `clang-format` and `clang-tidy` localy
 5. Use `-D ALLOCATORS_DEVELOPER` cmake option to generate `allocators_clang_tidy` and `allocators_clang_format` custom targets
-6. Run `allocators_clang_format` custom target using your build system to autoformat your to match codestyle conventions
+6. Run `allocators_clang_format` custom target using your build system to autoformat your code to match codestyle conventions
 7. Run `allocators_clang_tidy` custom target using your build system to see `clang-tidy` recomendations
 8. Make a pull request
 
