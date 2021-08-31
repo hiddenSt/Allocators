@@ -26,7 +26,7 @@ jobs:
     - name: Running make
       working-directory: ${{github.workspace}}/build
       shell: bash
-      run: make -j4 .
+      run: make -j4 allocators-lib-tests
       
     - name: Archive artifacts
       uses: actions/upload-artifact@v2
