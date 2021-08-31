@@ -23,15 +23,11 @@ jobs:
       working-directory: ${{github.workspace}}/build
       run: cmake $GITHUB_WORKSPACE -DCMAKE_CXX_COMPILER=clang++ -DALLOCATORS_TESTS=ON
 
-    - name: Build
+    - name: Running make
       working-directory: ${{github.workspace}}/build
       shell: bash
       run: make -j4 .
 
-    - name: Test
-      working-directory: ${{github.workspace}}/build/tests
-      shell: bash
-      run: ./Run_Allocators_Tests
   test:
     needs: build
     runs-on: ubuntu-latest
