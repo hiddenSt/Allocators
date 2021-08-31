@@ -43,7 +43,10 @@ jobs:
         with:
          name: build
          path: ${{github.workspace}}/build
-      - name: Run tests
+      - name: Add permissions to execute
+        working-directory: ${{github.workspace}}/build
+        run: chmod +x ./bin/allocators-lib-tests
+      - name: Run tests 
         working-directory: ${{github.workspace}}/build
         run: ./bin/allocators-lib-tests
   
