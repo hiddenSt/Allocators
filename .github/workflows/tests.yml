@@ -32,3 +32,10 @@ jobs:
       working-directory: ${{github.workspace}}/build/tests
       shell: bash
       run: ./Run_Allocators_Tests
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run tests
+        working-directory: ${{github.workspace}}/build
+        run: ./bin/allocators-lib-tests
+  
