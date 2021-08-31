@@ -42,6 +42,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
          name: build
+         path: ${{github.workspace}}/build
       - name: Run tests
         working-directory: ${{github.workspace}}/build
         run: ./bin/allocators-lib-tests
