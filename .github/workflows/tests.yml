@@ -33,6 +33,7 @@ jobs:
       shell: bash
       run: ./Run_Allocators_Tests
   test:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Run tests
